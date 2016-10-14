@@ -1,0 +1,18 @@
+{% extends 'homepage.html' %}
+
+{% block body %}
+<form class="" action="/{{page_name}}/save" method="post">
+  <h1>{{wiki_page.id}}</h1>
+  <input type="hidden" name="id" value="{{wiki_page.id}}">
+  <label for="content">{{page_name}}</label>
+    {% if is_available %}
+      <p>
+        Content not available!!!
+      </p>
+    {% else %}
+    <textarea name="content" rows="8" cols="40">{{content | safe}}</textarea>
+    {% endif %}
+  <button type="submit" name="save">Save</button>
+
+</form>
+{% endblock %}

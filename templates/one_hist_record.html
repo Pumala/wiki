@@ -1,0 +1,12 @@
+{% extends 'homepage.html' %}
+
+{% block body %}
+<h1>{{name}}</h1>
+  <p>
+      {{content | safe}}
+
+    <a href="/{{name}}">Current Wiki Page</a>
+    <a href="/{{name}}/hist">See page history</a>
+  </p>
+
+{% endblock %}

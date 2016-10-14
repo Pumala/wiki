@@ -1,0 +1,22 @@
+{% extends 'homepage.html' %}
+{% block body%}
+
+<table>
+  <thead>
+    <tr>
+      <th>Time Stamp</th>
+    </tr>
+
+  </thead>
+  <tbody>
+    {% for h in hist %}
+    <tr>
+      <td>
+        <a href="/{{h.pagename}}/hist/record?id={{h.content_id}}">{{h.timestamp}}</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
