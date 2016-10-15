@@ -1,19 +1,17 @@
 {% extends 'homepage.html' %}
 
 {% block body %}
-<h1>{{page_name}}</h1>
-{% if is_available %}
-  <p>
-    Is not available!!!
-    <a href="/{{page_name}}/edit">Create a New Page</a>
-  </p>
-{% else %}
-  <p>
-      {{content | safe}}
-
-    <a href="/{{page_name}}/edit">Edit this page</a>
-    <a href="/{{page_name}}/hist">See page history</a>
-  </p>
-{% endif %}
-
+  <h1 class="pagetitle">{{page_name}}</h1>
+  {% if is_available %}
+    <p>There is no {{page_name}} content yet!</p>
+    <a style="margin-right: 10px;" href="/{{page_name}}/edit"><button class="btn btn-warning" type="button" name="button">Create a New Page</button></a>
+    <a href="/"><button class="btn btn-success" type="button" name="button">See All Pages</button></a>
+  {% else %}
+    <p>
+      <strong>Last edited:</strong> {{timestamp}}
+    </p>
+    <a style="margin-right: 10px;" href="/{{page_name}}/edit"><button class="btn btn-warning" type="button" name="button">Edit this page</button></a>
+    <a href="/{{page_name}}/hist"><button class="btn btn-success" type="button" name="button">See Edit History</button></a>
+    <p>{{content | safe}}</p>
+  {% endif %}
 {% endblock %}

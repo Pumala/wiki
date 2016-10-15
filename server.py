@@ -10,14 +10,16 @@ db = pg.DB(dbname='wiki_db')
 
 @app.route('/')
 def render_homepage():
+    pages = db.query("select p.pagename, max(c.timestamp) from pages as p, content as c where p.id=c.pageid group by p.pagename").namedresult()
     return render_template(
         'homepage.html',
-        title='Homepage'
+        title="Jesslyn's Wiki",
+        pages = pages
     )
 
 @app.route('/<page_name>')
 def render_placeholder(page_name):
-    query = db.query("select pages.id, pages.pagename, content.content, content.timestamp from pages,content where content.pageid = pages.id and pages.pagename = '%s' order by content.timestamp desc limit 1" % page_name)
+    query = db.query("select pages.id, pages.pagename, content.content, content.timestamp as ts from pages,content where content.pageid = pages.id and pages.pagename = '%s' order by content.timestamp desc limit 1" % page_name)
     results = query.namedresult()
     # print "Query: %r" % query
     is_available = False
@@ -38,11 +40,12 @@ def render_placeholder(page_name):
             }
         )
 
-        wiki_page = db.query("select pages.id, pages.pagename, content.pageid, content.content, content.timestamp from pages, content where pages.id = content.pageid and pages.pagename = '%s'" % page_name).namedresult()[0]
+        wiki_page = db.query("select pages.id, pages.pagename, content.pageid, content.content, content.timestamp as ts from pages, content where pages.id = content.pageid and pages.pagename = '%s'" % page_name).namedresult()[0]
     else:
         wiki_page = results[0]
     # if page_name in db.('wiki',)
     # db.insert('wiki', pagename=page_name,content="")
+    timestamp = wiki_page.ts
     content = markdown.markdown(wiki_linkify(wiki_page.content))
     return render_template(
         'placeholder.html',
@@ -51,23 +54,26 @@ def render_placeholder(page_name):
         wiki_linkify = wiki_linkify,
         content = content,
         markdown = markdown,
-        wiki_page = wiki_page
+        wiki_page = wiki_page,
+        timestamp = timestamp
     )
 
 @app.route('/<page_name>/edit')
 def render_pageEdit(page_name):
     # query = db.query("select * from pages where pagename = '%s'" % page_name)
-    query = db.query("select pages.id, pages.pagename, content.content as content_info, content.timestamp from pages,content where content.pageid = pages.id and pages.pagename = '%s' order by content.timestamp desc limit 1" % page_name)
+    query = db.query("select pages.id, pages.pagename, content.content as content_info, content.timestamp as ts from pages,content where content.pageid = pages.id and pages.pagename = '%s' order by content.timestamp desc limit 1" % page_name)
     wiki_page = query.namedresult()[0]
+    print wiki_page
     content = wiki_page.content_info
-    print "CONTENT: %r" % content
+    timestamp = wiki_page.ts
     return render_template(
         'page_edit.html',
         page_name = page_name,
         content = content,
         wiki_linkify = wiki_linkify,
         markdown = markdown,
-        wiki_page = wiki_page
+        wiki_page = wiki_page,
+        timestamp = timestamp
     )
 
 @app.route('/<page_name>/hist')

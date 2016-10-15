@@ -1,0 +1,34 @@
+.topbar{
+  padding: 20px 50px 20px 50px;
+}
+
+.navbar-brand {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.maincontent {
+  margin-top: 110px;
+}
+
+.maincontent .contentrow {
+  display: flex;
+  justify-content: center;
+}
+
+.maincontent p {
+  font-size: 1.3em;
+}
+
+.entries {
+  margin-top: 30px;
+}
+
+.maincontent table tbody tr td a {
+  text-decoration: none;
+}
+
+.pagetitle {
+  font-weight: bold;
+  font-size: 3em !important;
+}

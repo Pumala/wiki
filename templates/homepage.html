@@ -3,17 +3,69 @@
   <head>
     <meta charset="utf-8">
     <title>{{title}}</title>
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/css/style.css" media="screen" title="no title">
+
   </head>
   <body>
-    <form action="/search" method="post">
-      <label for="search">Search: </label>
-      <input type="text" name="search">
-      <button type="submit">Submit</button>
-    </form>
-    {% block body %}
-      <p>
-        Oh my goodness!
-      </p>
-    {% endblock %}
+    <nav class="navbar navbar-default navbar-fixed-top topbar">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Jesslyn's Wiki</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <form class="navbar-form navbar-right" role="search" action="/search" method="post">
+            <a style="margin-right: 10px;" href="/"><button class="btn btn-info" type="button" name="button">See All Pages</button></a>
+            <a style="margin-right: 40px;" href="/"><button class="btn btn-info" type="button" name="button">Create a New Page</button></a>
+            <div style="margin-right: 10px;" class="form-group">
+              <input type="text" class="form-control" placeholder="Search" name="search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container maincontent">
+      <div class="row contentrow">
+        <div class="col-md-8">
+          {% block body %}
+            <h2>Welcome to the Wiki.</h2>
+            <p>
+              Select a page below, type in your desired page to the URL bar above, search for a page, or create a new page
+            </p>
+            <a href="#"><button class="btn btn-info" type="button" name="button">Create a New Page</button></a>
+            <table class="table table-striped entries">
+              <thead>
+                <tr>
+                  <th class="text-info">Page Name</th>
+                  <th class="text-info">Last Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for page in pages %}
+                <tr>
+                  <td><a class="text-warning" href="/{{page.pagename}}">{{page.pagename}}</a></td>
+                  <td>{{page.max}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
   </body>
 </html>
