@@ -3,10 +3,12 @@
 {% block body %}
 <h1>{{name}}</h1>
   <p>
-      {{content | safe}}
-
-    <a href="/{{name}}">Current Wiki Page</a>
-    <a href="/{{name}}/hist">See page history</a>
+    <strong>Page Version:</strong> {{timestamp}}
+  </p>
+  <p>
+    <a href="/{{name}}"><button class="btn btn-success" type="button" name="button">Current Wiki Page</button></a>
+    <a href="/{{name}}/hist"><button class="btn btn-warning" type="button" name="button">See page history</button></a>
+    {{content | safe}}
   </p>
 
 {% endblock %}

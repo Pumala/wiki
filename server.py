@@ -35,7 +35,7 @@ def render_placeholder(page_name):
         db.insert(
             'content', {
                 'pageid': newid,
-                'content': "",
+                'content': "Page Created",
                 'timestamp': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
             }
         )
@@ -81,7 +81,8 @@ def showHist(page_name):
     query = db.query("select pages.id, pages.pagename, content.content, content.timestamp, content.id as content_id from pages,content where content.pageid = pages.id and pages.pagename = '%s' order by content.timestamp" % page_name)
     return render_template(
     'pagehist.html',
-    hist = query.namedresult()
+    hist = query.namedresult(),
+    pagename = page_name
     )
 
 @app.route('/<page_name>/hist/record')
@@ -94,6 +95,7 @@ def renderHist(page_name):
     'one_hist_record.html',
     name = result.pagename,
     content = content,
+    timestamp = result.timestamp
     )
 
 @app.route('/<page_name>/save', methods=['POST'])

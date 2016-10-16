@@ -1,12 +1,15 @@
+<!DOCTYPE html>
+
 {% extends 'homepage.html' %}
+
 {% block body%}
 
-<table>
+<table class="table table-striped">
+  <h1>Edit History for <span class="text-success">{{pagename}}</span></h1>
   <thead>
     <tr>
       <th>Time Stamp</th>
     </tr>
-
   </thead>
   <tbody>
     {% for h in hist %}
@@ -14,6 +17,12 @@
       <td>
         <a href="/{{h.pagename}}/hist/record?id={{h.content_id}}">{{h.timestamp}}</a>
       </td>
+      {% if h.content == "Page Created" %}
+      <td>
+        Page Created
+      </td>
+      {% else %}
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>

@@ -24,8 +24,20 @@
   margin-top: 30px;
 }
 
+.maincontent table {
+  font-size: 1.2em;
+}
+
+.maincontent table tbody tr td {
+  font-size: 1em;
+}
+
 .maincontent table tbody tr td a {
-  text-decoration: none;
+  text-decoration: none !important;
+}
+
+.maincontent table tbody tr td a:hover {
+  text-decoration: none !important;
 }
 
 .pagetitle {

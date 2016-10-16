@@ -1,13 +1,16 @@
+<!DOCTYPE html>
+
 {% extends 'homepage.html' %}
 
 {% block body %}
-  <h1 class="pagetitle">{{page_name}}</h1>
-  <form class="form-inline" action="/{{page_name}}/save" method="post">
-    <h1>{{wiki_page.pagename}}</h1>
+  <h1>{{page_name}}</h1>
+  <form class="form-horizontal" action="/{{page_name}}/save" method="post">
     <input type="hidden" name="id" value="{{wiki_page.id}}">
-    <label for="content">{{page_name}}</label>
-      <textarea name="content" rows="8" cols="40">{{content | safe}}</textarea>
-      {% endif %}
-    <button type="submit" name="save">Save</button>
+    <div class="form-group">
+      <textarea class="form-control" name="content" rows="8" cols="40">{{content | safe}}</textarea>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" type="submit" name="save">Save</button>
+    </div>
   </form>
 {% endblock %}
