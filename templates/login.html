@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+{% extends 'homepage.html' %}
+
+{% block body %}
+  <h1>Log in to Jesslyn's Wiki</h1>
+  <form class="form-horizontal" action="/submit_login" method="post">
+    <div class="form-group">
+      <label class="control-label" for="username">Enter User Name:</label>
+      <input class="form-control" type="text" name="username" value="" placeholder="username">
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="password">Enter Password:</label>
+      <input class="form-control" type="password" name="password" value="" placeholder="password">
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" type="submit" name="save">Log In</button>
+    </div>
+  </form>
+{% endblock %}

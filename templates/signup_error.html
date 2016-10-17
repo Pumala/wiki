@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+
+{% extends 'signup.html' %}
+
+{% block error %}
+<div class="signup_error text-danger">
+  <p><strong>That username is already taken!</strong></p>
+</div>
+{% endblock %}

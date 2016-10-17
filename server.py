@@ -1,25 +1,34 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, session, flash
 from wiki_linkify import wiki_linkify
 import markdown
 import pg
 import time
 
 app = Flask('MyApp')
+app.secret_key = "ksajoivnvaldksdjfj"
 
 db = pg.DB(dbname='wiki_db')
 
 @app.route('/')
 def render_homepage():
     pages = db.query("select p.pagename, max(c.timestamp) from pages as p, content as c where p.id=c.pageid group by p.pagename").namedresult()
+    loggedin = False
+    try:
+        session['username']
+        loggedin = True
+    except:
+        loggedin = False
     return render_template(
         'homepage.html',
         title="Jesslyn's Wiki",
-        pages = pages
+        pages = pages,
+        loggedin = loggedin
     )
 
 @app.route('/<page_name>')
 def render_placeholder(page_name):
     query = db.query("select pages.id, pages.pagename, content.content, content.timestamp as ts from pages,content where content.pageid = pages.id and pages.pagename = '%s' order by content.timestamp desc limit 1" % page_name)
+    # query = db.query("select pages.id, pages.pagename, content.content, content.timestamp as ts from pages,content where content.pageid = pages.id and pages.pagename = $1 order by content.timestamp desc limit 1", page_name)
     results = query.namedresult()
     # print "Query: %r" % query
     is_available = False
@@ -125,6 +134,45 @@ def allPages():
 def redirect_search():
     search_val = request.form.get('search')
     return redirect('/%s' % search_val)
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    return render_template (
+    'signup.html'
+    )
+
+@app.route('/submit_signup', methods=['POST'])
+def submit_signup():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    try:
+        db.insert('users',username=username, password=password)
+        session['username'] = user.username
+        flash('Sign Up Succesful')
+        return redirect('/')
+    except:
+        return render_template('signup_error.html')
+
+
+@app.route('/submit_login', methods=['POST'])
+def submit_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    results = db.query("select * from users where username = $1", username).namedresult()
+    if len(results) > 0:
+        user = results[0]
+        if user.password == password:
+            session['username'] = user.username
+            return redirect('/')
+        else:
+            return redirect('/')
+    else:
+        return redirect('/')
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    del session['username']
+    return redirect('/')
 
 @app.route('/')
 def camel(word):
