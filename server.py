@@ -147,11 +147,12 @@ def submit_signup():
     password = request.form.get('password')
     try:
         db.insert('users',username=username, password=password)
-        session['username'] = user.username
+        session['username'] = username
         flash('Sign Up Succesful')
         return redirect('/')
     except:
         return render_template('signup_error.html')
+
 
 
 @app.route('/submit_login', methods=['POST'])
@@ -163,6 +164,7 @@ def submit_login():
         user = results[0]
         if user.password == password:
             session['username'] = user.username
+            flash("Successfully Logged In")
             return redirect('/')
         else:
             return redirect('/')
@@ -172,6 +174,7 @@ def submit_login():
 @app.route('/logout', methods=['POST'])
 def logout():
     del session['username']
+    flash("Successfully Logged Out")
     return redirect('/')
 
 @app.route('/')
