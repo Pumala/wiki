@@ -34,6 +34,8 @@ Aside from styling this app was created as a paired programming project with [Ca
 * Content entered using Markdown language should be rendered appropriately
 * User should be able to search for a specific page
 * Entering a page name directly in the URL bar of the browser should automatically navigate to the wiki page of that name or create one if one does not already exist.
+* User should be able to log in or sign up from navbar.  If login or sign up fails, receive feedback, else, navigate back to homepage.
+* If user is not logged in, they cannot edit pages.
 
 ##Code Snippets
 All pages were built off of a "homepage.html" template.  The layout template contains the necessary header, styling, and top bar elements such as the search function, an option to return home (see all pages), and to create a new page.  The remaining pages overwrite a div element in the body of that template.
