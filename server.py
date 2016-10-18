@@ -3,11 +3,19 @@ from wiki_linkify import wiki_linkify
 import markdown
 import pg
 import time
+from dotenv import load_dotenv, find_dotenv
+import os
 
-app = Flask('MyApp')
+load_dotenv(find_dotenv())
+tmp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+app = Flask('Wiki', template_folder=tmp_dir)
 app.secret_key = "ksajoivnvaldksdjfj"
-
-db = pg.DB(dbname='wiki_db')
+db = pg.DB(
+    dbname=os.environ.get('PG_DBNAME'),
+    host=os.environ.get('PG_HOST'),
+    user=os.environ.get('PG_USERNAME'),
+    passwd=os.environ.get('PG_PASSWORD')
+)
 
 @app.route('/')
 def render_homepage():
